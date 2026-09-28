@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBTA 13 - English V Exam</title>
+  <style>
+    :root {
+      --primary: #1e293b;
+      --accent: #0284c7;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #cbd5e1;
+      --text: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
+      padding: 30px;
+      border: 1px solid var(--border);
+    }
+
+    header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      text-transform: uppercase;
+    }
+
+    header h2 {
+      font-size: 1rem;
+      color: var(--accent);
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .start-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #0369a1;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      background: #f1f5f9;
+      padding: 8px 12px;
+      border-left: 4px solid var(--accent);
+      margin: 20px 0 15px 0;
+      font-weight: bold;
+    }
+
+    .question-card {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .question-card p {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .options label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 15px;
+      border-radius: 4px;
+      font-style: italic;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .score-card {
+      text-align: center;
+      padding: 20px;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    .score-card h3 {
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .review-item {
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .review-item.correct {
+      background-color: #dcfce7;
+      border: 1px solid #86efac;
+      color: #14532d;
+    }
+
+    .review-item.incorrect {
+      background-color: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #7f1d1d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div>
+        <h1>CBTA No. 13 - Extensión Conkal</h1>
+        <small>English V Evaluation</small>
+      </div>
+      <h2>Module 5</h2>
+    </header>
+
+    <div id="start-screen" class="screen active">
+      <h2>Student Registration</h2>
+      <p style="margin-top: 5px; color: #64748b;">Please enter your personal details to begin the exam.</p>
+
+      <div class="start-form">
+        <div>
+          <label for="student-name">Full Name:</label>
+          <input type="text" id="student-name" placeholder="e.g. Juan Pérez Gómez" required>
+        </div>
+        <div>
+          <label for="student-group">Group / Semester:</label>
+          <input type="text" id="student-group" placeholder="e.g. 5to A - Agropecuario" required>
+        </div>
+        <button type="button" id="btn-start">Start Examination</button>
+      </div>
+    </div>
+
+    <div id="exam-screen" class="screen">
+      <form id="quiz-form" onsubmit="return false;">
+
+        <div class="section-title">Section I: Present Simple vs. Present Perfect (Multiple Choice)</div>
+
+        <div class="question-card">
+          <p>1. She __________ in Conkal for five years. (She still lives there)</p>
+          <div class="options">
+            <label><input type="radio" name="q1" value="a"> a) lives</label>
+            <label><input type="radio" name="q1" value="b"> b) has lived</label>
+            <label><input type="radio" name="q1" value="c"> c) live</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>2. Farmers __________ the crop field every morning at 6:00 AM.</p>
+          <div class="options">
+            <label><input type="radio" name="q2" value="a"> a) have watered</label>
+            <label><input type="radio" name="q2" value="b"> b) water</label>
+            <label><input type="radio" name="q2" value="c"> c) waters</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>3. __________ you ever __________ a tractor in the agricultural module?</p>
+          <div class="options">
+            <label><input type="radio" name="q3" value="a"> a) Do / drive</label>
+            <label><input type="radio" name="q3" value="b"> b) Have / driven</label>
+            <label><input type="radio" name="q3" value="c"> c) Has / drive</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>4. I __________ my homework already.</p>
+          <div class="options">
+            <label><input type="radio" name="q4" value="a"> a) have done</label>
+            <label><input type="radio" name="q4" value="b"> b) do</label>
+            <label><input type="radio" name="q4" value="c"> c) did</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>5. The students __________ to school by bus every day.</p>
+          <div class="options">
+            <label><input type="radio" name="q5" value="a"> a) has gone</label>
+            <label><input type="radio" name="q5" value="b"> b) go</label>
+            <label><input type="radio" name="q5" value="c"> c) goes</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>6. We __________ the tomatoes yet.</p>
+          <div class="options">
+            <label><input type="radio" name="q6" value="a"> a) doesn't harvest</label>
+            <label><input type="radio" name="q6" value="b"> b) hasn't harvested</label>
+            <label><input type="radio" name="q6" value="c"> c) haven't harvested</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>7. My teacher __________ English at CBTA since 2015.</p>
+          <div class="options">
+            <label><input type="radio" name="q7" value="a"> a) has taught</label>
+            <label><input type="radio" name="q7" value="b"> b) teaches</label>
+            <label><input type="radio" name="q7" value="c"> c) teach</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>8. Water __________ at 100 degrees Celsius. (a general fact)</p>
+          <div class="options">
+            <label><input type="radio" name="q8" value="a"> a) boils</label>
+            <label><input type="radio" name="q8" value="b"> b) boil</label>
+            <label><input type="radio" name="q8" value="c"> c) has boiled</label>
+          </div>
+        </div>
+
+        <div class="section-title">Section II: Verb Forms (Past Participle)</div>
+        <div class="question-card">
+          <p>Select the correct Past Participle form for each verb:</p>
+
+          <div class="match-grid">
+            <span>9. <strong>Go</strong> (Irregular)</span>
+            <select name="q9">
+              <option value="">-- Choose --</option>
+              <option value="goed">Goed</option>
+              <option value="gone">Gone</option>
+              <option value="went">Went</option>
+            </select>
+          </div>
+
+          <div class="match-grid">
+            <span>10. <strong>Plant</strong> (Regular)</span>
+            <select name="q10">
+              <option value="">-- Choose --</option>
+              <option value="planted">Planted</option>
+              <option value="planten">Planten</option>
+              <option value="planting">Planting</option>
+            </select>
+          </div>
+
+          <div class="match-grid">
+            <span>11. <strong>Write</strong> (Irregular)</span>
+            <select name="q11">
+              <option value="">-- Choose --</option>
+              <option value="wrote">Wrote</option>
+              <option value="writed">Writed</option>
+              <option value="written">Written</option>
+            </select>
+          </div>
+
+          <div class="match-grid">
+            <span>12. <strong>Eat</strong> (Irregular)</span>
+            <select name="q12">
+              <option value="">-- Choose --</option>
+              <option value="ate">Ate</option>
+              <option value="eaten">Eaten</option>
+              <option value="eated">Eated</option>
+            </select>
+          </div>
+
+          <div class="match-grid">
+            <span>13. <strong>Harvest</strong> (Regular)</span>
+            <select name="q13">
+              <option value="">-- Choose --</option>
+              <option value="harvested">Harvested</option>
+              <option value="harvest">Harvest</option>
+              <option value="harvestet">Harvestet</option>
+            </select>
+          </div>
+
+          <div class="match-grid">
+            <span>14. <strong>See</strong> (Irregular)</span>
+            <select name="q14">
+              <option value="">-- Choose --</option>
+              <option value="saw">Saw</option>
+              <option value="seen">Seen</option>
+              <option value="seed">Seed</option>
+            </select>
+          </div>
+
+          <div class="match-grid">
+            <span>15. <strong>Take</strong> (Irregular)</span>
+            <select name="q15">
+              <option value="">-- Choose --</option>
+              <option value="took">Took</option>
+              <option value="taked">Taked</option>
+              <option value="taken">Taken</option>
+            </select>
+          </div>
+
+          <div class="match-grid">
+            <span>16. <strong>Grow</strong> (Irregular)</span>
+            <select name="q16">
+              <option value="">-- Choose --</option>
+              <option value="grew">Grew</option>
+              <option value="growed">Growed</option>
+              <option value="grown">Grown</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-title">Section III: Reading Comprehension</div>
+        <div class="reading-box">
+          "My name is Carlos and I study at CBTA No. 13. I <strong>have worked</strong> in the greenhouse project since last semester. Everyday, our team <strong>checks</strong> the soil humidity and <strong>prepares</strong> organic fertilizer. We <strong>have already harvested</strong> two batches of tomatoes this year."
+        </div>
+
+        <div class="question-card">
+          <p>17. How long has Carlos worked in the greenhouse project?</p>
+          <div class="options">
+            <label><input type="radio" name="q17" value="a"> a) Every day</label>
+            <label><input type="radio" name="q17" value="b"> b) Since last semester</label>
+            <label><input type="radio" name="q17" value="c"> c) For two years</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>18. What action do they perform EVERY DAY as a routine?</p>
+          <div class="options">
+            <label><input type="radio" name="q18" value="a"> a) Check soil humidity and prepare fertilizer</label>
+            <label><input type="radio" name="q18" value="b"> b) Harvest two batches of tomatoes</label>
+            <label><input type="radio" name="q18" value="c"> c) Build new greenhouses</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>19. How many batches of tomatoes have they harvested this year?</p>
+          <div class="options">
+            <label><input type="radio" name="q19" value="a"> a) One</label>
+            <label><input type="radio" name="q19" value="b"> b) Two</label>
+            <label><input type="radio" name="q19" value="c"> c) Three</label>
+          </div>
+        </div>
+
+        <div class="question-card">
+          <p>20. Which sentence from the text is in the Present Simple?</p>
+          <div class="options">
+            <label><input type="radio" name="q20" value="a"> a) I have worked in the greenhouse project.</label>
+            <label><input type="radio" name="q20" value="b"> b) We have already harvested two batches.</label>
+            <label><input type="radio" name="q20" value="c"> c) Our team checks the soil humidity.</label>
+          </div>
+        </div>
+
+        <button type="button" id="btn-submit">Finish and Submit Exam</button>
+      </form>
+    </div>
+
+    <div id="results-screen" class="screen">
+      <h2>Evaluation Results</h2>
+
+      <div class="score-card">
+        <p>Student: <strong id="res-student-name">---</strong></p>
+        <p>Group: <strong id="res-student-group">---</strong></p>
+        <br>
+        <p>Final Score:</p>
+        <h3 id="res-score">0 / 20</h3>
+        <p id="res-percentage" style="font-size: 0.9rem; color: #64748b;">(0%)</p>
+      </div>
+
+      <div class="section-title">Answer Breakdown</div>
+      <div id="review-container"></div>
+
+      <button type="button" onclick="location.reload()">Take Another Test</button>
+    </div>
+
+  </div>
+
+  <script>
+    var studentData = { name: '', group: '' };
+
+    var correctAnswers = { q1:'b', q2:'b', q3:'b', q4:'a', q5:'b', q6:'c', q7:'a', q8:'a', q9:'gone', q10:'planted', q11:'written', q12:'eaten', q13:'harvested', q14:'seen', q15:'taken', q16:'grown', q17:'b', q18:'a', q19:'b', q20:'c' };
+
+    // Devuelve el texto legible de una respuesta (para mostrarlo en el resumen)
+    function getAnswerText(key, value) {
+      if (!value) return 'None';
+      var el;
+      if (document.querySelector('select[name="' + key + '"]')) {
+        el = document.querySelector('select[name="' + key + '"] option[value="' + value + '"]');
+        return el ? el.textContent.trim() : value;
+      }
+      el = document.querySelector('input[name="' + key + '"][value="' + value + '"]');
+      return el ? el.parentElement.textContent.trim() : value;
+    }
+
+    document.getElementById('btn-start').addEventListener('click', function() {
+      var nameInput = document.getElementById('student-name').value.trim();
+      var groupInput = document.getElementById('student-group').value.trim();
+
+      if (!nameInput || !groupInput) {
+        alert('Please fill out both your name and group before starting.');
+        return;
+      }
+
+      studentData.name = nameInput;
+      studentData.group = groupInput;
+
+      document.getElementById('start-screen').classList.remove('active');
+      document.getElementById('exam-screen').classList.add('active');
+      window.scrollTo(0, 0);
+    });
+
+    document.getElementById('btn-submit').addEventListener('click', function() {
+      var score = 0;
+      var totalQuestions = Object.keys(correctAnswers).length;
+      var reviewContainer = document.getElementById('review-container');
+      reviewContainer.innerHTML = '';
+
+      var answers = {};
+      var unanswered = [];
+
+      for (var key in correctAnswers) {
+        var selected = '';
+
+        var selectElem = document.querySelector('select[name="' + key + '"]');
+        if (selectElem) {
+          selected = selectElem.value;
+        } else {
+          var checkedRadio = document.querySelector('input[name="' + key + '"]:checked');
+          if (checkedRadio) selected = checkedRadio.value;
+        }
+
+        answers[key] = selected;
+        if (!selected) unanswered.push(key.replace('q', ''));
+      }
+
+      if (unanswered.length > 0) {
+        var proceed = confirm('You have not answered question(s): ' + unanswered.join(', ') +
+          '.\nDo you want to submit anyway?');
+        if (!proceed) return;
+      }
+
+      for (var k in correctAnswers) {
+        var isCorrect = (answers[k] === correctAnswers[k]);
+        if (isCorrect) score++;
+
+        var reviewItem = document.createElement('div');
+        reviewItem.className = 'review-item ' + (isCorrect ? 'correct' : 'incorrect');
+        reviewItem.innerHTML = '<strong>Question ' + k.replace('q', '') + ':</strong> ' +
+          (isCorrect ? 'Correct ✓' : 'Incorrect ✗') +
+          (!isCorrect
+            ? ' (Your answer: <em>' + getAnswerText(k, answers[k]) + '</em> | Correct: <strong>' +
+              getAnswerText(k, correctAnswers[k]) + '</strong>)'
+            : '');
+
+        reviewContainer.appendChild(reviewItem);
+      }
+
+      document.getElementById('res-student-name').textContent = studentData.name;
+      document.getElementById('res-student-group').textContent = studentData.group;
+      document.getElementById('res-score').textContent = score + ' / ' + totalQuestions;
+      document.getElementById('res-percentage').textContent = '(' + Math.round((score / totalQuestions) * 100) + '%)';
+
+      document.getElementById('exam-screen').classList.remove('active');
+      document.getElementById('results-screen').classList.add('active');
+      window.scrollTo(0, 0);
+    });
+  </script>
+</body>
+</html>
